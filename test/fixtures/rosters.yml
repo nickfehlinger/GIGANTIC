@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  position: one
+  user: one
+  pay_rate: 9.99
+  pay_type: false
+
+two:
+  position: two
+  user: two
+  pay_rate: 9.99
+  pay_type: false

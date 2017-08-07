@@ -25,6 +25,21 @@ gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
+#Devise will be running all of our user authorization and registration
+gem 'devise'
+
+#mailboxer will handle all of our messaging services
+gem 'mailboxer'
+
+#Fullcalendar is going to generate the calendar for the users dashboard
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
+
+#Paperclip is going to handle all of our image and file uploads
+gem "paperclip", git: "git://github.com/thoughtbot/paperclip.git"
+
+#Simple Form will make all of our forms nice and easy to format
+gem 'simple_form'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password

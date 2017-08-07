@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  gig: one
+  roster: one
+  uniform: MyText
+  in_time: 2017-08-04 19:09:04
+  out_time: 2017-08-04 19:09:04
+  accepted: false
+
+two:
+  gig: two
+  roster: two
+  uniform: MyText
+  in_time: 2017-08-04 19:09:04
+  out_time: 2017-08-04 19:09:04
+  accepted: false

@@ -1,0 +1,16 @@
+<%= simple_form_for(@gig_roster) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :gig %>
+    <%= f.association :roster %>
+    <%= f.input :uniform %>
+    <%= f.input :in_time %>
+    <%= f.input :out_time %>
+    <%= f.input :accepted %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

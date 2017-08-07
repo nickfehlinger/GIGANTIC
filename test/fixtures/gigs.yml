@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  client: one
+  staff_budget: 9.99
+  start: 2017-08-04 19:08:58
+  end: 2017-08-04 19:08:58
+  street_address: MyString
+  city: MyString
+  state: MyString
+  description: MyText
+  invoice_period: 1
+
+two:
+  name: MyString
+  client: two
+  staff_budget: 9.99
+  start: 2017-08-04 19:08:58
+  end: 2017-08-04 19:08:58
+  street_address: MyString
+  city: MyString
+  state: MyString
+  description: MyText
+  invoice_period: 1

@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Company Fields</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Field</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @company_fields.each do |company_field| %>
+      <tr>
+        <td><%= company_field.company %></td>
+        <td><%= company_field.field %></td>
+        <td><%= link_to 'Show', company_field %></td>
+        <td><%= link_to 'Edit', edit_company_field_path(company_field) %></td>
+        <td><%= link_to 'Destroy', company_field, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Company Field', new_company_field_path %>

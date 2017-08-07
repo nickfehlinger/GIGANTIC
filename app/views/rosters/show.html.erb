@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @roster.position %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @roster.user %>
+</p>
+
+<p>
+  <strong>Pay rate:</strong>
+  <%= @roster.pay_rate %>
+</p>
+
+<p>
+  <strong>Pay type:</strong>
+  <%= @roster.pay_type %>
+</p>
+
+<%= link_to 'Edit', edit_roster_path(@roster) %> |
+<%= link_to 'Back', rosters_path %>

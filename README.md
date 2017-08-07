@@ -60,6 +60,7 @@ rails generate scaffold company_review user:belongs_to company:belongs_to review
 rails generate scaffold company_field company:belongs_to field:belongs_to
 rails generate scaffold user_field user:belongs_to field:belongs_to
 rails generate scaffold user_skill skill:belongs_to UserField:belongs_to
+rails generate scaffold event user:belongs_to gig_roster:belongs_to
 rails generate migration AddColumnsToUser fname:string lname:string phone:string bio:text city:string state:string
 rails generate paperclip user avatar
 rails generate paperclip user resume

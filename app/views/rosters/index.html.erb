@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Rosters</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Position</th>
+      <th>User</th>
+      <th>Pay rate</th>
+      <th>Pay type</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @rosters.each do |roster| %>
+      <tr>
+        <td><%= roster.position %></td>
+        <td><%= roster.user %></td>
+        <td><%= roster.pay_rate %></td>
+        <td><%= roster.pay_type %></td>
+        <td><%= link_to 'Show', roster %></td>
+        <td><%= link_to 'Edit', edit_roster_path(roster) %></td>
+        <td><%= link_to 'Destroy', roster, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Roster', new_roster_path %>

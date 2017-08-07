@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Gig:</strong>
+  <%= @gig_roster.gig %>
+</p>
+
+<p>
+  <strong>Roster:</strong>
+  <%= @gig_roster.roster %>
+</p>
+
+<p>
+  <strong>Uniform:</strong>
+  <%= @gig_roster.uniform %>
+</p>
+
+<p>
+  <strong>In time:</strong>
+  <%= @gig_roster.in_time %>
+</p>
+
+<p>
+  <strong>Out time:</strong>
+  <%= @gig_roster.out_time %>
+</p>
+
+<p>
+  <strong>Accepted:</strong>
+  <%= @gig_roster.accepted %>
+</p>
+
+<%= link_to 'Edit', edit_gig_roster_path(@gig_roster) %> |
+<%= link_to 'Back', gig_rosters_path %>

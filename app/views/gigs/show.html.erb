@@ -1,0 +1,54 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @gig.name %>
+</p>
+
+<p>
+  <strong>Client:</strong>
+  <%= @gig.client %>
+</p>
+
+<p>
+  <strong>Staff budget:</strong>
+  <%= @gig.staff_budget %>
+</p>
+
+<p>
+  <strong>Start:</strong>
+  <%= @gig.start %>
+</p>
+
+<p>
+  <strong>End:</strong>
+  <%= @gig.end %>
+</p>
+
+<p>
+  <strong>Street address:</strong>
+  <%= @gig.street_address %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @gig.city %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @gig.state %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @gig.description %>
+</p>
+
+<p>
+  <strong>Invoice period:</strong>
+  <%= @gig.invoice_period %>
+</p>
+
+<%= link_to 'Edit', edit_gig_path(@gig) %> |
+<%= link_to 'Back', gigs_path %>
