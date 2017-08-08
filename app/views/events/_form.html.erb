@@ -2,17 +2,15 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
+    <%= f.association :employer %>
     <%= f.input :title %>
     <%= f.input :description %>
-    <%= f.input :company %>
     <%= f.input :street_address %>
     <%= f.input :city %>
     <%= f.input :state %>
     <%= f.input :uniform %>
-    <%= f.input :start_time %>
-    <%= f.input :end_time %>
-    <%= f.input :pay_rate %>
-    <%= f.input :pay_type %>
+    <%= f.input :start %>
+    <%= f.input :end %>
   </div>
 
   <div class="form-actions">

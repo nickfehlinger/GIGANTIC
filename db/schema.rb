@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170806201346) do
+ActiveRecord::Schema.define(version: 20170808205819) do
 
   create_table "budget_categories", force: :cascade do |t|
     t.string "name"
@@ -87,20 +87,33 @@ ActiveRecord::Schema.define(version: 20170806201346) do
     t.index ["user_id"], name: "index_employee_reviews_on_user_id"
   end
 
+  create_table "employers", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "name"
+    t.string "contact_person"
+    t.string "phone"
+    t.string "email"
+    t.decimal "pay_rate"
+    t.boolean "pay_type"
+    t.string "color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_employers_on_user_id"
+  end
+
   create_table "events", force: :cascade do |t|
+    t.integer "employer_id"
     t.string "title"
     t.text "description"
-    t.string "company"
     t.string "street_address"
     t.string "city"
     t.string "state"
     t.text "uniform"
-    t.datetime "start_time"
-    t.datetime "end_time"
-    t.decimal "pay_rate"
-    t.boolean "pay_type"
+    t.datetime "start"
+    t.datetime "end"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["employer_id"], name: "index_events_on_employer_id"
   end
 
   create_table "fields", force: :cascade do |t|

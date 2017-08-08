@@ -1,0 +1,18 @@
+<%= simple_form_for(@employer) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :user %>
+    <%= f.input :name %>
+    <%= f.input :contact_person %>
+    <%= f.input :phone %>
+    <%= f.input :email %>
+    <%= f.input :pay_rate %>
+    <%= f.input :pay_type %>
+    <%= f.input :color %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

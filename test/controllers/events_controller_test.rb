@@ -17,7 +17,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create event" do
     assert_difference('Event.count') do
-      post events_url, params: { event: { city: @event.city, company: @event.company, description: @event.description, end_time: @event.end_time, pay_rate: @event.pay_rate, pay_type: @event.pay_type, start_time: @event.start_time, state: @event.state, street_address: @event.street_address, title: @event.title, uniform: @event.uniform } }
+      post events_url, params: { event: { city: @event.city, description: @event.description, employer_id: @event.employer_id, end: @event.end, start: @event.start, state: @event.state, street_address: @event.street_address, title: @event.title, uniform: @event.uniform } }
     end
 
     assert_redirected_to event_url(Event.last)
@@ -34,7 +34,7 @@ class EventsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update event" do
-    patch event_url(@event), params: { event: { city: @event.city, company: @event.company, description: @event.description, end_time: @event.end_time, pay_rate: @event.pay_rate, pay_type: @event.pay_type, start_time: @event.start_time, state: @event.state, street_address: @event.street_address, title: @event.title, uniform: @event.uniform } }
+    patch event_url(@event), params: { event: { city: @event.city, description: @event.description, employer_id: @event.employer_id, end: @event.end, start: @event.start, state: @event.state, street_address: @event.street_address, title: @event.title, uniform: @event.uniform } }
     assert_redirected_to event_url(@event)
   end
 

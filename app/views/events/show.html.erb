@@ -1,6 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <p>
+  <strong>Employer:</strong>
+  <%= @event.employer %>
+</p>
+
+<p>
   <strong>Title:</strong>
   <%= @event.title %>
 </p>
@@ -8,11 +13,6 @@
 <p>
   <strong>Description:</strong>
   <%= @event.description %>
-</p>
-
-<p>
-  <strong>Company:</strong>
-  <%= @event.company %>
 </p>
 
 <p>
@@ -36,23 +36,13 @@
 </p>
 
 <p>
-  <strong>Start time:</strong>
-  <%= @event.start_time %>
+  <strong>Start:</strong>
+  <%= @event.start %>
 </p>
 
 <p>
-  <strong>End time:</strong>
-  <%= @event.end_time %>
-</p>
-
-<p>
-  <strong>Pay rate:</strong>
-  <%= @event.pay_rate %>
-</p>
-
-<p>
-  <strong>Pay type:</strong>
-  <%= @event.pay_type %>
+  <strong>End:</strong>
+  <%= @event.end %>
 </p>
 
 <%= link_to 'Edit', edit_event_path(@event) %> |

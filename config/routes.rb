@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :employers
   resources :user_skills
   resources :user_fields
   resources :company_fields
