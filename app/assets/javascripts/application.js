@@ -16,4 +16,8 @@
 //= require moment 
 //= require fullcalendar
 
-$('#calendar').fullCalendar({});
+// $('#calendar').fullCalendar(
+// 	{events: 'events.json'}
+// );
+// determine which month of the calendar we are looking at:
+

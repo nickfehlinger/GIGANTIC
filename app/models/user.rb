@@ -9,4 +9,5 @@ class User < ApplicationRecord
   validates_attachment_content_type :resume, content_type: /\Aimage\/.*\z/
   has_many :budget_categories
   has_many :budgets, through: :budget_categories
+  has_many :transactions, through: :budgets
 end

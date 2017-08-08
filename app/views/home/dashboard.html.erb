@@ -4,9 +4,13 @@
 		<div class="col-md-6">
 			<h3>Calendar</h3>
 			<div id="calendar"></div>
-	      	<script type="text/javascript">$('#calendar').fullCalendar(
-	      		{events: 'events.json'}
-	      	);</script>
+			<p id="monthearnings"></p>
+			<div class="progress">
+			  <div id="earnedBudget" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+			    0%
+			  </div>
+			</div>
+
 	    </div>
 		<div class="col-md-6">
 			<div id="gigrequests">
@@ -19,11 +23,123 @@
 				<% budgetcat.budgets.each do |budget| %>
 					<p><%= budget.name %></p>
 					<div class="progress">
-  						<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%" id="<%= budget.name %>Progress">
+  						<div class="progress-bar" role="progressbar" aria-valuenow="<%= budget.percent %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= budget.percent %>%" id="budget<%= budget.id %>" data-budget="<%= budget.amount %>">
+  						<%= budget.percent %>%
   						</div>
 					</div>
 				<% end %>
 			<% end %>
+			<h4>Total</h4>
+			<p id="total"><%= @budgets.sum(:amount) %></p>
+			<div class="progress">
+  				<div class="progress-bar" role="progressbar" aria-valuenow="<%= @total_percent %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @total_percent %>%" id="totalProgress">
+  				<%= @total_percent.to_i %>%
+  				</div>
+			</div>
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+$('#calendar').fullCalendar(
+	{events: 'events.json'}
+	);
+var transactions;
+$.ajax({
+	url: '/transactions.json',
+	success: function(data) {
+		transactions = data;
+		console.log( "Transaction data:", data );
+	}
+})
+var budgets;
+$.ajax({
+	url: '/budgets.json',
+	success: function(data) {
+		budgets = data;
+		console.log( "budget data:", data );
+	}
+})
+var view,
+	start,
+	end;
+App.getIdOrFilter = function () {
+    view = $('#calendar').fullCalendar('getView');
+    start = view.intervalStart;
+    end   = view.intervalEnd;
+    return function (e) {
+        // this is our event filter
+        if (e.start >= start && e.end <= end) {
+            // event e is within the view interval
+            return true;
+        }
+        // event e is not within the current displayed interval
+        return false;
+    };
+}
+
+document.addEventListener("turbolinks:load", function() {
+	setTimeout( function(){
+		var events = $('#calendar').fullCalendar('clientEvents', App.getIdOrFilter());
+		var checks = []
+		for(i = 0; i < events.length; i++) {
+			checks.push(((events[i].end - events[i].start) / 1000 / 60 / 60) * events[i].pay_rate);
+		};
+		console.log(checks);
+		var budgetTotal = parseInt(document.getElementById("total").innerText);
+		var monthPay = checks.reduce((pv, cv) => pv+cv, 0);
+		var percentEarned = parseInt(monthPay / budgetTotal * 100);
+		var monthearnings = document.getElementById("monthearnings");
+		var progressBar = document.getElementById("earnedBudget");
+		monthearnings.innerText = "This Months Earnings: " + monthPay;
+		progressBar.setAttribute("aria-valuenow", percentEarned);
+		progressBar.setAttribute("style", "width: " + percentEarned + "%");
+		progressBar.innerText = percentEarned + "%";
+	}, 1);
+})
+$(".fc-button").click(function(){
+	setTimeout( function(){
+		var events = $('#calendar').fullCalendar('clientEvents', App.getIdOrFilter());
+		var checks = []
+		var currentTrans = transactions.filter(function (e) {
+	        if (moment(e.created_at) >= start && moment(e.created_at) <= end) {
+	            return true;
+	        }
+	        return false;
+	    })
+	    console.log(currentTrans);
+		var total = currentTrans.reduce((pv, cv) => pv+parseFloat(cv.amount), 0);
+		console.log(total);
+	    var totals = currentTrans.reduce(function(obj,transaction){
+		  let key = transaction.budget_id + "";
+		  obj[key] = (obj[key] || 0) + parseFloat(transaction.amount);
+		  return obj;
+		},{});
+		budgets.forEach(function(budget){
+		  let id = budget.id + "";
+		  document.getElementById("budget"+id).style.width = (totals[id] || 0) / budget.amount * 100 + "%";
+		  document.getElementById("budget"+id).innerText = parseInt((totals[id] || 0) / budget.amount * 100) + "%";
+		});
+		var budgetTotal = parseInt(document.getElementById("total").innerText);
+		var totalProgress = document.getElementById("totalProgress");
+		var budgetProgress = total / budgetTotal * 100;
+		totalProgress.style.width = budgetProgress + "%"
+		totalProgress.innerText = parseInt(budgetProgress) + "%"
+		for(i = 0; i < events.length; i++) {
+			checks.push(((events[i].end - events[i].start) / 1000 / 60 / 60) * events[i].pay_rate);
+		};
+		console.log(checks);
+		var monthPay = checks.reduce((pv, cv) => pv+cv, 0);
+		var percentEarned = parseInt(monthPay / budgetTotal * 100);
+		var progressBar = document.getElementById("earnedBudget");
+		progressBar.setAttribute("aria-valuenow", percentEarned);
+		progressBar.setAttribute("style", "width: " + percentEarned + "%");
+		progressBar.innerText = percentEarned + "%";
+
+	}, 1);
+});
+
+// filter transactions by current month
+// group totals by budget category
+// re-draw each budget bar by the spending amounts over budget totals
+
+</script>
