@@ -171,21 +171,18 @@ function updatePage(){
 		};
 
 		// rollover from previous month
-		var prevstart = moment(start).subtract(1, "months");
+		var prevstart = moment("<%= current_user.created_at %>");
 		var prevend = moment(end).subtract(1, "months");
-		if ( moment("<%= current_user.created_at %>") < start ){
-			var prevchecks = []
+		if( prevstart < start ){
+			var prevchecks = [];
 			var prevevents = $("#calendar").fullCalendar('clientEvents', function(e){
-				if(e.start >= prevstart && e.end <= prevend){
-					return true;
-				}
-				return false;
-			})
+				return e.start >= prevstart && e.end <= prevend;
+			});
 			for(i = 0; i < prevevents.length; i++) {
 				prevchecks.push(((prevevents[i].end - prevevents[i].start) / 1000 / 60 / 60) * prevevents[i].pay_rate);
 			};
-			var prevMonthPay = prevchecks.reduce((pv, cv) => pv+cv, 0);
-			var rollover = prevMonthPay - budgetTotal;
+			var prevMonthsPay = prevchecks.reduce((pv, cv) => pv+cv, 0);
+			var rollover = prevMonthsPay - (budgetTotal * Math.ceil(prevend.diff(prevstart, 'months', true)));
 			console.log(rollover)
 			console.log(checks)
 			checks.push(rollover)
@@ -198,25 +195,7 @@ function updatePage(){
 		progressBar.setAttribute("aria-valuenow", percentEarned);
 		progressBar.setAttribute("style", "width: " + percentEarned + "%");
 		progressBar.innerText = percentEarned + "%";
-		// // rollover from previous month
-		// var prevstart = moment(start).subtract(1, "months");
-		// var prevend = moment(end).subtract(1, "months");
-		// var prevchecks = []
-		// var prevevents = $("#calendar").fullCalendar('clientEvents', function(e){
-		// 	if(e.start >= prevstart && e.end <= prevend){
-		// 		return true;
-		// 	}
-		// 	return false;
-		// })
-		// for(i = 0; i < prevevents.length; i++) {
-		// 	prevchecks.push(((prevevents[i].end - prevevents[i].start) / 1000 / 60 / 60) * prevevents[i].pay_rate);
-		// };
-		// var prevMonthPay = prevchecks.reduce((pv, cv) => pv+cv, 0);
-		// var rollover = prevMonthPay - budgetTotal;
-		// console.log(rollover)
-		// console.log(checks)
-		// checks.push(rollover)
-		// console.log(checks)
+		
 	}, 100);
 }
 updatePage()
