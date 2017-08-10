@@ -2,15 +2,54 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.association :employer %>
-    <%= f.input :title %>
-    <%= f.input :description %>
-    <%= f.input :street_address %>
-    <%= f.input :city %>
-    <%= f.input :state %>
-    <%= f.input :uniform %>
-    <%= f.input :start %>
-    <%= f.input :end %>
+    <%= f.association :employer, prompt: "Employer", label: false %>
+    <%= f.input :title, label: false, placeholder: 'title' %>
+    <%= f.input :description, label: false, placeholder: 'description' %>
+    <%= f.input :street_address, label: false, placeholder: 'address' %>
+    <%= f.input :city, label: false, placeholder: 'city', wrapper_html: { style: "display: inline-block; width: 45%; left: 0; margin: 0 10px;"} %>
+    <%= f.input :state, collection: us_states, prompt: "State", label: false, wrapper_html: { style: "display: inline-block; width: 45%; right: 0; margin: 0 10px;"} %>
+    <%= f.input :uniform, label: false, placeholder: 'uniform' %>
+    <%# f.input :start, label: false, class: :datetime %> 
+    <%# f.input :end, label: false, class: :datetime %>
+    <div class="container" id="datetimeinputs">
+    <div class='col-md-6' id="datetimecols">
+        <div class="form-group">
+            <div class='input-group date' id='datetimepicker6'>
+                <input type='text' class="form-control" name="event[start]" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class='col-md-6' id="datetimecols">
+        <div class="form-group">
+            <div class='input-group date' id='datetimepicker7'>
+                <input type='text' class="form-control" name="event[end]"/>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker6').datetimepicker({
+          format: 'Y-MM-DD H:mm:ss'
+        });
+        $('#datetimepicker7').datetimepicker({
+            useCurrent: false, //Important! See issue #1075
+            format: 'Y-MM-DD H:mm:ss'
+        });
+        $("#datetimepicker6").on("dp.change", function (e) {
+            $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker7").on("dp.change", function (e) {
+            $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+        });
+    });
+</script>
   </div>
 
   <div class="form-actions">

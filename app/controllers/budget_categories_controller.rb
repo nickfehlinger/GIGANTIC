@@ -24,11 +24,11 @@ class BudgetCategoriesController < ApplicationController
   # POST /budget_categories
   # POST /budget_categories.json
   def create
-    @budget_category = BudgetCategory.new(budget_category_params)
+    @budget_category = BudgetCategory.new(user_id: current_user.id, name: params[:name])
 
     respond_to do |format|
       if @budget_category.save
-        format.html { redirect_to @budget_category, notice: 'Budget category was successfully created.' }
+        format.html { redirect_to dashboard_path, notice: 'Budget category was successfully created.' }
         format.json { render :show, status: :created, location: @budget_category }
       else
         format.html { render :new }

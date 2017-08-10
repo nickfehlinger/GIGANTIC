@@ -13,6 +13,7 @@
  *= require_tree .
  *= 
  *= require fullcalendar
+*= require bootstrap-datetimepicker
  */
 body{
 	background-color: #baf0ff;

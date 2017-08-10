@@ -2,6 +2,10 @@ class HomeController < ApplicationController
   def index
   end
   def dashboard
+    @transaction = Transaction.new
+    @budget = Budget.new
+    @budget_category = BudgetCategory.new
+  	@event = Event.new
   	@user = current_user
   	@budget_categories = @user.budget_categories.all
   	@budgets = @user.budgets.all

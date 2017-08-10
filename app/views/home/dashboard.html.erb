@@ -2,7 +2,10 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-6">
-			<h3>Calendar</h3>
+			<h3>Calendar <span class="glyphicon glyphicon-plus-sign" id="newEventBtn" aria-hidden="true"></span></h3>
+			<div id="newEvent">
+				<%= render 'events/form', event: @event %>
+			</div>
 			<div id="calendar"></div>
 			<p id="monthearnings"></p>
 			<div class="progress">
@@ -17,18 +20,68 @@
 				<!-- list out all of the users gig requests -->
 			</div>
 			<div id="budgets">
-			<h3>Budgets</h3>
+			<h3>Budgets <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" id="budgcatbtn"></span></h3>
+			<div class="budgcatform">
+			<%= render '/budget_categories/form', budget_category: @budget_category %>
+			</div>
 			<% @budget_categories.each do |budgetcat| %>
-				<h4><%= budgetcat.name %></h4>
+				<h4><%= budgetcat.name %> <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" id="budgetcat<%= budgetcat.id %>formBtn"></span></h4>
+				<div id="budgetcat<%= budgetcat.id %>form" class="budgetforms">
+				<%= simple_form_for(@budget) do |f| %>
+				  <%= f.error_notification %>
+
+				  <div class="form-inputs">
+				    <%= f.input :name %>
+				    <%= f.input :amount %>
+				    <%= f.input :recurring_type %>
+				    <%= f.association :budget_category, as: :hidden, input_html: {value: budgetcat.id} %>
+				  </div>
+
+				  <div class="form-actions">
+				    <%= f.button :submit %>
+				  </div>
+				<% end %>
+				</div>
+				<script type="text/javascript">
+					$("#budgetcat<%= budgetcat.id %>formBtn").click(function(){
+						$("#budgetcat<%= budgetcat.id %>form").toggle(1000);
+					});
+				</script>
 				<% budgetcat.budgets.each do |budget| %>
-					<p><%= budget.name %></p>
+					<p><%= budget.name %> <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" id="budget<%= budget.id %>formBtn"></span></p>
+					<div class="transactionforms" id="budget<%= budget.id %>form">
+					<%= simple_form_for(@transaction) do |f| %>
+					  <%= f.error_notification %>
+
+					  <div class="form-inputs">
+					    <%= f.input :merchant %>
+					    <%= f.input :note %>
+					    <%= f.input :amount %>
+					    <%= f.association :budget, as: :hidden, input_html: {value: budget.id} %>
+					  </div>
+
+					  <div class="form-actions">
+					    <%= f.button :submit %>
+					  </div>
+					<% end %>
+					</div>
 					<div class="progress">
   						<div class="progress-bar" role="progressbar" aria-valuenow="<%= budget.percent %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= budget.percent %>%" id="budget<%= budget.id %>" data-budget="<%= budget.amount %>">
   						<%= budget.percent %>%
   						</div>
 					</div>
+					<script type="text/javascript">
+					$("#budget<%= budget.id %>formBtn").click(function(){
+						$("#budget<%= budget.id %>form").toggle(1000);
+					});
+				</script>
 				<% end %>
 			<% end %>
+			<script type="text/javascript">
+				$("#budgcatbtn").click(function(e){
+						$(".budgcatform").toggle(1000);
+					});
+				</script>
 			<h4>Total</h4>
 			<p id="total"><%= @budgets.sum(:amount) %></p>
 			<div class="progress">
@@ -36,27 +89,30 @@
   				<%= @total_percent.to_i %>%
   				</div>
 			</div>
+			</div>
 		</div>
 	</div>
 </div>
 <script type="text/javascript">
+	document.addEventListener("DOMContentLoaded", function() {
+	// initialize calendar
 $('#calendar').fullCalendar(
 	{events: 'events.json'}
 	);
+// define transactions
 var transactions;
 $.ajax({
 	url: '/transactions.json',
 	success: function(data) {
 		transactions = data;
-		console.log( "Transaction data:", data );
 	}
 })
+// define budgets
 var budgets;
 $.ajax({
 	url: '/budgets.json',
 	success: function(data) {
 		budgets = data;
-		console.log( "budget data:", data );
 	}
 })
 var view,
@@ -76,27 +132,15 @@ App.getIdOrFilter = function () {
         return false;
     };
 }
-
-document.addEventListener("turbolinks:load", function() {
-	setTimeout( function(){
-		var events = $('#calendar').fullCalendar('clientEvents', App.getIdOrFilter());
-		var checks = []
-		for(i = 0; i < events.length; i++) {
-			checks.push(((events[i].end - events[i].start) / 1000 / 60 / 60) * events[i].pay_rate);
-		};
-		console.log(checks);
-		var budgetTotal = parseInt(document.getElementById("total").innerText);
-		var monthPay = checks.reduce((pv, cv) => pv+cv, 0);
-		var percentEarned = parseInt(monthPay / budgetTotal * 100);
-		var monthearnings = document.getElementById("monthearnings");
-		var progressBar = document.getElementById("earnedBudget");
-		monthearnings.innerText = "This Months Earnings: " + monthPay;
-		progressBar.setAttribute("aria-valuenow", percentEarned);
-		progressBar.setAttribute("style", "width: " + percentEarned + "%");
-		progressBar.innerText = percentEarned + "%";
-	}, 1);
-})
+$("#newEventBtn").click(function(){
+	$("#newEvent").toggle(1000)
+});
+	
 $(".fc-button").click(function(){
+	updatePage()
+});
+
+function updatePage(){
 	setTimeout( function(){
 		var events = $('#calendar').fullCalendar('clientEvents', App.getIdOrFilter());
 		var checks = []
@@ -106,9 +150,7 @@ $(".fc-button").click(function(){
 	        }
 	        return false;
 	    })
-	    console.log(currentTrans);
 		var total = currentTrans.reduce((pv, cv) => pv+parseFloat(cv.amount), 0);
-		console.log(total);
 	    var totals = currentTrans.reduce(function(obj,transaction){
 		  let key = transaction.budget_id + "";
 		  obj[key] = (obj[key] || 0) + parseFloat(transaction.amount);
@@ -127,19 +169,56 @@ $(".fc-button").click(function(){
 		for(i = 0; i < events.length; i++) {
 			checks.push(((events[i].end - events[i].start) / 1000 / 60 / 60) * events[i].pay_rate);
 		};
-		console.log(checks);
+
+		// rollover from previous month
+		var prevstart = moment(start).subtract(1, "months");
+		var prevend = moment(end).subtract(1, "months");
+		if ( moment("<%= current_user.created_at %>") < start ){
+			var prevchecks = []
+			var prevevents = $("#calendar").fullCalendar('clientEvents', function(e){
+				if(e.start >= prevstart && e.end <= prevend){
+					return true;
+				}
+				return false;
+			})
+			for(i = 0; i < prevevents.length; i++) {
+				prevchecks.push(((prevevents[i].end - prevevents[i].start) / 1000 / 60 / 60) * prevevents[i].pay_rate);
+			};
+			var prevMonthPay = prevchecks.reduce((pv, cv) => pv+cv, 0);
+			var rollover = prevMonthPay - budgetTotal;
+			console.log(rollover)
+			console.log(checks)
+			checks.push(rollover)
+			console.log(checks)
+		}
+		// end rollover
 		var monthPay = checks.reduce((pv, cv) => pv+cv, 0);
 		var percentEarned = parseInt(monthPay / budgetTotal * 100);
 		var progressBar = document.getElementById("earnedBudget");
 		progressBar.setAttribute("aria-valuenow", percentEarned);
 		progressBar.setAttribute("style", "width: " + percentEarned + "%");
 		progressBar.innerText = percentEarned + "%";
-
-	}, 1);
-});
-
-// filter transactions by current month
-// group totals by budget category
-// re-draw each budget bar by the spending amounts over budget totals
-
+		// // rollover from previous month
+		// var prevstart = moment(start).subtract(1, "months");
+		// var prevend = moment(end).subtract(1, "months");
+		// var prevchecks = []
+		// var prevevents = $("#calendar").fullCalendar('clientEvents', function(e){
+		// 	if(e.start >= prevstart && e.end <= prevend){
+		// 		return true;
+		// 	}
+		// 	return false;
+		// })
+		// for(i = 0; i < prevevents.length; i++) {
+		// 	prevchecks.push(((prevevents[i].end - prevevents[i].start) / 1000 / 60 / 60) * prevevents[i].pay_rate);
+		// };
+		// var prevMonthPay = prevchecks.reduce((pv, cv) => pv+cv, 0);
+		// var rollover = prevMonthPay - budgetTotal;
+		// console.log(rollover)
+		// console.log(checks)
+		// checks.push(rollover)
+		// console.log(checks)
+	}, 100);
+}
+updatePage()
+})
 </script>

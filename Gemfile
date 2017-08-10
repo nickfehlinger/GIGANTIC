@@ -34,6 +34,7 @@ gem 'mailboxer'
 #Fullcalendar is going to generate the calendar for the users dashboard
 gem 'fullcalendar-rails'
 gem 'momentjs-rails'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 
 #Paperclip is going to handle all of our image and file uploads
 gem "paperclip", git: "git://github.com/thoughtbot/paperclip.git"
