@@ -24,7 +24,8 @@ class BudgetCategoriesController < ApplicationController
   # POST /budget_categories
   # POST /budget_categories.json
   def create
-    @budget_category = BudgetCategory.new(user_id: current_user.id, name: params[:name])
+    p params
+    @budget_category = BudgetCategory.new(user_id: current_user.id, name: params[:budget_category][:name])
 
     respond_to do |format|
       if @budget_category.save

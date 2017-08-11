@@ -20,14 +20,16 @@ form{
 }
 .progress-bar#earnedBudget{
 	background-image: linear-gradient(#5f0, #0f5);
+	text-align: left;
+	color: #f70;
 }
-#newEvent{
+#newEvent, #newEmployer{
 	display: none;
 	.form-group{
 		margin: 0 10px;
 	}
 }
-.budgetforms, .budgcatform, .transactionforms{
+.budgetforms, .budgcatform, .transactionforms, .transactions, {
 	display: none;
 }
 #datetimeinputs, #datetimecols{
@@ -39,4 +41,21 @@ form{
 }
 #datetimecols{
 	width: 50%;
+}
+.deleteBtn{
+	color: #f00;
+	font-size: 50%;
+	vertical-align: 50%;
+}
+#calendarTitle{
+	display: inline-block;
+}
+#newEmployerBtn{
+	display: inline-block;
+	right: 0px;
+	text-align: right;
+	margin-left: 46%;
+}
+.colorinput{
+	display: inline-block;
 }

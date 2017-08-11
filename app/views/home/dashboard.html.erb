@@ -2,9 +2,30 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-6">
-			<h3>Calendar <span class="glyphicon glyphicon-plus-sign" id="newEventBtn" aria-hidden="true"></span></h3>
+			<h3 id="calendarTitle">Calendar <span class="glyphicon glyphicon-plus-sign" id="newEventBtn" aria-hidden="true"></span></h3>
+			<h4 id="newEmployerBtn"><span class="glyphicon glyphicon-briefcase"></span> New Employer</h4>
 			<div id="newEvent">
 				<%= render 'events/form', event: @event %>
+			</div>
+			<div id="newEmployer">
+				<%= simple_form_for(@employer) do |f| %>
+				  <%= f.error_notification %>
+
+				  <div class="form-inputs">
+				    <%= f.input :name, placeholder: 'Name', label: false %>
+				    <%= f.input :contact_person, placeholder: 'Contact Person', label: false %>
+				    <%= f.input :phone, placeholder: 'Phone Number', label: false %>
+				    <%= f.input :email, placeholder: 'Email', label: false %>
+				    <%= f.input :pay_rate, placeholder: 'Pay Rate', label: false %>
+				    <%= f.input :pay_type, as: :select, prompt: 'Hourly?', label: false %>
+				    <label for="employer[color]" class="colorinput">Pick a color to represent this employer:</label>
+				    <input type="color" name="employer[color]" class="colorinput" value="#ff7700">
+				  </div>
+
+				  <div class="form-actions">
+				    <%= f.button :submit %>
+				  </div>
+				<% end %>
 			</div>
 			<div id="calendar"></div>
 			<p id="monthearnings"></p>
@@ -16,16 +37,13 @@
 
 	    </div>
 		<div class="col-md-6">
-			<div id="gigrequests">
-				<!-- list out all of the users gig requests -->
-			</div>
 			<div id="budgets">
 			<h3>Budgets <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" id="budgcatbtn"></span></h3>
 			<div class="budgcatform">
 			<%= render '/budget_categories/form', budget_category: @budget_category %>
 			</div>
 			<% @budget_categories.each do |budgetcat| %>
-				<h4><%= budgetcat.name %> <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" id="budgetcat<%= budgetcat.id %>formBtn"></span></h4>
+				<h4><%=link_to budget_category_path(budgetcat), method: :delete do %><span class="glyphicon glyphicon-remove deleteBtn" aria-hidden="true"></span><% end %><%= budgetcat.name %> <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" id="budgetcat<%= budgetcat.id %>formBtn"></span></h4>
 				<div id="budgetcat<%= budgetcat.id %>form" class="budgetforms">
 				<%= simple_form_for(@budget) do |f| %>
 				  <%= f.error_notification %>
@@ -48,7 +66,7 @@
 					});
 				</script>
 				<% budgetcat.budgets.each do |budget| %>
-					<p><%= budget.name %> <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" id="budget<%= budget.id %>formBtn"></span></p>
+					<p><%=link_to budget_path(budget), method: :delete do %><span class="glyphicon glyphicon-remove deleteBtn" aria-hidden="true"></span><% end %><%= budget.name %> <span class="glyphicon glyphicon-plus-sign" aria-hidden="true" id="budget<%= budget.id %>formBtn"></span> <span class="glyphicon glyphicon-list" aria-hidden="true" id="budget<%= budget.id %>TransactionBtn"></span></p>
 					<div class="transactionforms" id="budget<%= budget.id %>form">
 					<%= simple_form_for(@transaction) do |f| %>
 					  <%= f.error_notification %>
@@ -70,9 +88,17 @@
   						<%= budget.percent %>%
   						</div>
 					</div>
+					<div id="budget<%= budget.id %>Transactions" class="transactions">
+						<% budget.transactions.each do |transaction| %>
+						<p><%=link_to transaction_path(transaction), method: :delete do %><span class="glyphicon glyphicon-remove deleteBtn" aria-hidden="true"></span><% end %><%= transaction.merchant %>: <%= transaction.amount %></p>
+						<% end %>
+					</div>
 					<script type="text/javascript">
 					$("#budget<%= budget.id %>formBtn").click(function(){
 						$("#budget<%= budget.id %>form").toggle(1000);
+					});
+					$("#budget<%= budget.id %>TransactionBtn").click(function(){
+						$("#budget<%= budget.id %>Transactions").toggle(1000);
 					});
 				</script>
 				<% end %>
@@ -86,7 +112,7 @@
 			<p id="total"><%= @budgets.sum(:amount) %></p>
 			<div class="progress">
   				<div class="progress-bar" role="progressbar" aria-valuenow="<%= @total_percent %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @total_percent %>%" id="totalProgress">
-  				<%= @total_percent.to_i %>%
+  				<% if @total_percent %><%= @total_percent %>%<% end %>
   				</div>
 			</div>
 			</div>
@@ -96,9 +122,10 @@
 <script type="text/javascript">
 	document.addEventListener("DOMContentLoaded", function() {
 	// initialize calendar
-$('#calendar').fullCalendar(
-	{events: 'events.json'}
-	);
+$('#calendar').fullCalendar({
+		events: 'events.json',
+		aspectRatio: 1
+	});
 // define transactions
 var transactions;
 $.ajax({
@@ -135,6 +162,9 @@ App.getIdOrFilter = function () {
 $("#newEventBtn").click(function(){
 	$("#newEvent").toggle(1000)
 });
+$("#newEmployerBtn").click(function(){
+	$("#newEmployer").toggle(1000)
+})
 	
 $(".fc-button").click(function(){
 	updatePage()

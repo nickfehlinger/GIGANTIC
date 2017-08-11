@@ -2,14 +2,14 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.association :user %>
     <%= f.input :name %>
     <%= f.input :contact_person %>
     <%= f.input :phone %>
     <%= f.input :email %>
     <%= f.input :pay_rate %>
-    <%= f.input :pay_type %>
-    <%= f.input :color %>
+    <%= f.input :pay_type, as: :select, label: 'Hourly?' %>
+    <label for="employer[color]">Pick a color to represent this employer:</label>
+    <input type="color" name="employer[color]">
   </div>
 
   <div class="form-actions">
