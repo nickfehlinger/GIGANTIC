@@ -29,7 +29,7 @@ form{
 		margin: 0 10px;
 	}
 }
-.budgetforms, .budgcatform, .transactionforms, .transactions, {
+.budgetforms, .budgcatform, .transactionforms, .transactions, #employerlist{
 	display: none;
 }
 #datetimeinputs, #datetimecols{
@@ -50,12 +50,21 @@ form{
 #calendarTitle{
 	display: inline-block;
 }
-#newEmployerBtn{
+#employers{
 	display: inline-block;
 	right: 0px;
 	text-align: right;
 	margin-left: 46%;
 }
 .colorinput{
+	display: inline-block;
+}
+.glyphicon-plus-sign{
+	color: #0f0;
+}
+.colordot{
+	height: 10px;
+	width: 10px;
+	border-radius: 50%;
 	display: inline-block;
 }

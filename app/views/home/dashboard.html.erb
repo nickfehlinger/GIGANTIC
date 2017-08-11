@@ -3,9 +3,17 @@
 	<div class="row">
 		<div class="col-md-6">
 			<h3 id="calendarTitle">Calendar <span class="glyphicon glyphicon-plus-sign" id="newEventBtn" aria-hidden="true"></span></h3>
-			<h4 id="newEmployerBtn"><span class="glyphicon glyphicon-briefcase"></span> New Employer</h4>
+			<h4 id="employers"><span id="employershow"><span class="glyphicon glyphicon-briefcase"></span> Employers</span> <span class="glyphicon glyphicon-plus-sign" id="newEmployerBtn"></span></h4>
 			<div id="newEvent">
 				<%= render 'events/form', event: @event %>
+			</div>
+			<div id="employerlist">
+			<h3>Employer Breakdown This Month</h3>
+				<% @employers.each do |employer| %>
+				<p><%=link_to employer_path(employer), method: :delete do %><span class="glyphicon glyphicon-remove deleteBtn" aria-hidden="true"></span><% end %><%= employer.name %> <span class="colordot" style="background-color: <%= employer.color %>;"></span></p>
+				<% end %>
+				<p>Inside: Hours | Outside: Pay</p>
+				<canvas id="employerchart" width="400" height="400"></canvas>
 			</div>
 			<div id="newEmployer">
 				<%= simple_form_for(@employer) do |f| %>
@@ -90,7 +98,7 @@
 					</div>
 					<div id="budget<%= budget.id %>Transactions" class="transactions">
 						<% budget.transactions.each do |transaction| %>
-						<p><%=link_to transaction_path(transaction), method: :delete do %><span class="glyphicon glyphicon-remove deleteBtn" aria-hidden="true"></span><% end %><%= transaction.merchant %>: <%= transaction.amount %></p>
+						<p data-toggle="tooltip" title="<%= transaction.note%>"><%=link_to transaction_path(transaction), method: :delete do %><span class="glyphicon glyphicon-remove deleteBtn" aria-hidden="true"></span><% end %><%= transaction.merchant %>: <%= transaction.amount %></p>
 						<% end %>
 					</div>
 					<script type="text/javascript">
@@ -126,6 +134,9 @@ $('#calendar').fullCalendar({
 		events: 'events.json',
 		aspectRatio: 1
 	});
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+});
 // define transactions
 var transactions;
 $.ajax({
@@ -165,7 +176,10 @@ $("#newEventBtn").click(function(){
 $("#newEmployerBtn").click(function(){
 	$("#newEmployer").toggle(1000)
 })
-	
+$("#employershow").click(function(){
+	$("#employerlist").toggle(1000)
+})
+
 $(".fc-button").click(function(){
 	updatePage()
 });
@@ -173,6 +187,7 @@ $(".fc-button").click(function(){
 function updatePage(){
 	setTimeout( function(){
 		var events = $('#calendar').fullCalendar('clientEvents', App.getIdOrFilter());
+		console.log(events)
 		var checks = []
 		var currentTrans = transactions.filter(function (e) {
 	        if (moment(e.created_at) >= start && moment(e.created_at) <= end) {
@@ -225,9 +240,62 @@ function updatePage(){
 		progressBar.setAttribute("aria-valuenow", percentEarned);
 		progressBar.setAttribute("style", "width: " + percentEarned + "%");
 		progressBar.innerText = percentEarned + "%";
-		
+		// doughnut chart
+		var curremps = events.map( o => o.employer ).filter( (v,i,a) => a.indexOf(v) === i );
+		var currempchecks = [];
+		var curremppay = [];
+		var curremphours = [];
+		var curremphourstot = [];
+		var currempcolors = [];
+			// get all the events for the employer	
+			for(i = 0; i < curremps.length; i ++){
+				var currempevents = events.filter(e => e.employer === curremps[i]);
+				// calculate the checks for that employers events
+				for( n = 0; n < currempevents.length; n ++ ){
+					currempchecks.push(((currempevents[n].end - currempevents[n].start) / 1000 / 60 / 60) * currempevents[n].pay_rate);
+					curremphours.push((currempevents[n].end - currempevents[n].start) / 1000 / 60 / 60)
+					currempcolors.push(currempevents[n].color);
+				};
+				console.log(currempchecks);
+				console.log(curremphours);
+				// add them up and push them to curremppay
+				curremppay.push(parseInt(currempchecks.reduce((pv, cv) => pv+cv, 0)));
+				curremphourstot.push(parseInt(curremphours.reduce((pv, cv) => pv+cv, 0)));
+				currempchecks = [];
+				console.log(curremppay)
+				console.log(curremphourstot)
+			}
+			currempcolors = currempcolors.filter( (v,i,a) => a.indexOf(v) === i );
+			console.log(currempcolors)
+		var ctx = $("#employerchart");
+		var myChart = new Chart(ctx, {
+		    type: 'doughnut',
+		    data: {
+		        labels: curremps,
+		        datasets: [{
+		            label: 'Pay Per Employer',
+		            data: curremppay,
+		            backgroundColor: currempcolors,
+		            borderColor: '#444',
+		            hoverBorderColor: '#ff7;',
+		            borderWidth: 1
+		        },{
+		        	label: 'Hours Per Employer',
+		            data: curremphourstot,
+		            backgroundColor: currempcolors,
+		            borderColor: '#444',
+		            hoverBorderColor: '#ff7;',
+		            borderWidth: 1
+		        }]
+		    },
+		    options: {
+		        legend: {
+		        	display: false,
+		        }
+		    }
+		});
 	}, 100);
-}
+};
 updatePage()
-})
+});
 </script>

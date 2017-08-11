@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  before_action :authenticate_user!, only: [:dashboard]
   def index
   end
   def dashboard
@@ -11,6 +12,7 @@ class HomeController < ApplicationController
   	@budget_categories = @user.budget_categories.all
   	@budgets = @user.budgets.all
   	@transactions = @user.transactions.all
+    @employers = @user.employers.all
   	@total_percent = @transactions.sum(:amount) / @budgets.sum(:amount) *100
   end
 end
