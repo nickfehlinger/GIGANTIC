@@ -8,8 +8,9 @@
     <%= f.input :email %>
     <%= f.input :pay_rate %>
     <%= f.input :pay_type, as: :select, label: 'Hourly?' %>
-    <label for="employer[color]">Pick a color to represent this employer:</label>
-    <input type="color" name="employer[color]">
+    <!-- <label for="employer[color]">Pick a color to represent this employer:</label> -->
+    <!--<input type="color" name="employer[color]">-->
+    <%= f.input :color, as: :color, label: "Pick a color to represent this employer:" %>
   </div>
 
   <div class="form-actions">

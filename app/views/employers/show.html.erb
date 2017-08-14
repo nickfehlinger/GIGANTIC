@@ -1,14 +1,7 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>User:</strong>
-  <%= @employer.user %>
-</p>
-
-<p>
-  <strong>Name:</strong>
+<div id="event">
+<h2>
   <%= @employer.name %>
-</p>
+</h2>
 
 <p>
   <strong>Contact person:</strong>
@@ -22,7 +15,7 @@
 
 <p>
   <strong>Email:</strong>
-  <%= @employer.email %>
+  <a href="mailto:<%= @employer.email %>"><%= @employer.email %></a>
 </p>
 
 <p>
@@ -35,10 +28,6 @@
   <%= @employer.pay_type %>
 </p>
 
-<p>
-  <strong>Color:</strong>
-  <%= @employer.color %>
-</p>
-
 <%= link_to 'Edit', edit_employer_path(@employer) %> |
-<%= link_to 'Back', employers_path %>
+<%= link_to 'Back', dashboard_path %>
+</div>

@@ -1,13 +1,12 @@
-<p id="notice"><%= notice %></p>
+
+<div id="event">
+<h2>
+  <%= @event.title %>
+</h2>
 
 <p>
   <strong>Employer:</strong>
-  <%= @event.employer.name %>
-</p>
-
-<p>
-  <strong>Title:</strong>
-  <%= @event.title %>
+  <%= link_to @event.employer.name, @event.employer %>
 </p>
 
 <p>
@@ -44,9 +43,10 @@
   <strong>End:</strong>
   <%= @event.end %>
 </p>
-<iframe width="300" height="300" frameborder="0" style="border:0"
+<iframe width="500" height="500" frameborder="0" style="border:0"
  src="https://www.google.com/maps/embed/v1/place?key=<%= ENV["GIGANTIC_GMAPS_KEY"] %>&q=<%= @event.address %>"
  allowfullscreen>
 </iframe>
 <%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+<%= link_to 'Back', dashboard_path %>
+</div>

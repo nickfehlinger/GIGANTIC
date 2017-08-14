@@ -1,17 +1,6 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-h1{
-	font-family: 'Impact';
-	font-size: 20em;
-	color: #f70;
-	text-align: center;
-}
-p{
-	color: #fff;
-	text-align: center;
-	font-size: 1.5em !important;
-}
 form{
 	text-align: center;
 }
@@ -51,16 +40,39 @@ form{
 	display: inline-block;
 }
 #employers{
-	display: inline-block;
-	right: 0px;
-	text-align: right;
-	margin-left: 46%;
+	float: right;
+	margin-top: 1.5em; 
 }
 .colorinput{
 	display: inline-block;
 }
+#legend{
+	text-align: center;
+	color: #54a1e9;
+}
 .glyphicon-plus-sign{
 	color: #0f0;
+}
+.glyphicon-list{
+	color: #54a1e9;
+}
+.glyphicon-plus-sign:hover{
+	text-shadow:  1px 1px 1px #ffdc95,
+				  -1px 1px 1px #ffdc95,
+				  1px -1px 1px #ffdc95,
+				  -1px -1px 1px #ffdc95,
+				  ;
+	transition-duration: .5s;
+	cursor: pointer;
+}
+.glyphicon-list:hover{
+	text-shadow:  1px 1px 1px #ffdc95,
+				  -1px 1px 1px #ffdc95,
+				  1px -1px 1px #ffdc95,
+				  -1px -1px 1px #ffdc95,
+				  ;
+	transition-duration: .5s;
+	cursor: pointer;
 }
 .colordot{
 	height: 10px;
@@ -68,3 +80,124 @@ form{
 	border-radius: 50%;
 	display: inline-block;
 }
+h2{
+	color: #000957;
+	font-family: 'Impact';
+	text-align: center;
+	font-size: 4em;
+}
+.dashboard{
+	background-color: #000957;
+	padding: 10px;
+	border-radius: 20px;
+	margin: 20px;
+/*	box-shadow: 5px 5px 5px #555,
+				-1px -1px 1px #555,
+				1px -1px 1px #555,
+				-1px 1px 1px #555;*/
+	border: 1px solid #bbb;
+	.dashboardsec{
+		background-color: #fff;
+		border: 5px solid #000957;
+		border-radius: 20px;
+		h2{
+			font-family: 'Helvetica';
+			color: #444;
+			text-shadow: none;
+		}
+		h3{
+			color: #555;
+		}
+		h4{
+			color: #666;
+		}
+		p{
+			font-size: 1em; 
+			color: #777;
+		}
+		#employershow{
+			background-color: #000957;
+			color: #fff;
+/*			text-shadow: 1px 1px 1px #ddd;*/
+			padding: 5px;
+			border-radius: 5px;
+/*			border: 1px solid #ccc;*/
+		}
+		#employershow:hover{
+			box-shadow: 2px 2px 3px #444;
+
+			background-color: #0000da;
+			cursor: pointer;
+			transition-duration: .5s;
+		}
+		.transactionP{
+			font-size: .8em;
+		}
+	}
+}
+.title{
+	color: #f70;
+	text-shadow: .05em 0px 1px #f20;
+	font-size: 1.25em;
+	font-family: 'Impact';
+}
+.item{
+	margin: 10px 15% 50px;
+}
+.carousel-indicators{
+	li{
+		background-color: #f70;
+	}
+	li.active{
+		background-color: #f20
+	}
+}
+.carousel-control.right, .carousel-control.left{
+	background-image: none;
+	color: #f70;
+}
+#landingHero{
+	width: 100vw;
+	height: 100vh;
+	background-image: radial-gradient(#0959ff, #000957);
+	text-align: center;
+	header{
+		background: none;
+	}
+	label{
+		color: #fff;
+	}
+	p{
+		margin: 10vh 10%;
+		font-size: 4em;
+		font-family: 'Helvetica';
+		color: #fff;
+/*		text-shadow: 1px 1px 1px #555,
+					 -1px 1px 1px #555,
+					 1px -1px 1px #555,
+					 -1px -1px 1px #555;*/	
+	}
+	.glyphicon{
+		font-size: 20em;
+		margin: 0 5%;
+		color: #fff;
+		text-shadow: 3px 3px 1px #f70,
+					 -3px 3px 1px #f70,
+					 3px -3px 1px #f70,
+					 -3px -3px 1px #f70;
+	}
+}
+#landingContent{
+	width: 50%;
+	margin: 50px auto;
+	p{
+		font-size: 2em;
+	}
+}
+
+
+
+
+
+
+

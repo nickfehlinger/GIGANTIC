@@ -1,6 +1,6 @@
-<h1>Editing Employer</h1>
-
+<div id="event">
 <%= render 'form', employer: @employer %>
 
-<%= link_to 'Show', @employer %> |
-<%= link_to 'Back', employers_path %>
+<%= link_to 'Delete Event', @employer, method: :delete, data: { confirm: 'Are you sure?' } %> |
+<%= link_to 'Back', @employer %>
+</div>

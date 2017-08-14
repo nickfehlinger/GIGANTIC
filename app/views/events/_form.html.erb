@@ -6,8 +6,8 @@
     <%= f.input :title, label: false, placeholder: 'title' %>
     <%= f.input :description, label: false, placeholder: 'description' %>
     <%= f.input :street_address, label: false, placeholder: 'address' %>
-    <%= f.input :city, label: false, placeholder: 'city', wrapper_html: { style: "display: inline-block; width: 45%; left: 0; margin: 0 10px;"} %>
-    <%= f.input :state, collection: us_states, prompt: "State", label: false, wrapper_html: { style: "display: inline-block; width: 45%; right: 0; margin: 0 10px;"} %>
+    <%= f.input :city, label: false, placeholder: 'city', wrapper_html: { style: "display: inline-block; width: 49%; left: 0; margin: 0; margin-right: 0 !important;"} %>
+    <%= f.input :state, collection: us_states, prompt: "State", label: false, wrapper_html: { style: "display: inline-block; width: 49%; right: 0; margin: 0; margin-right: 0 !important;"} %>
     <%= f.input :uniform, label: false, placeholder: 'uniform' %>
     <%# f.input :start, label: false, class: :datetime %> 
     <%# f.input :end, label: false, class: :datetime %>
@@ -15,7 +15,8 @@
     <div class='col-md-6' id="datetimecols">
         <div class="form-group">
             <div class='input-group date' id='datetimepicker6'>
-                <input type='text' class="form-control" name="event[start]" />
+                <%= f.input :start, as: :string, class: 'form-control', placeholder: 'Start Date & Time' %>
+                <!-- <input type='text' class="form-control" name="event[start]" placeholder="Start Date & Time" /> -->
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -25,7 +26,8 @@
     <div class='col-md-6' id="datetimecols">
         <div class="form-group">
             <div class='input-group date' id='datetimepicker7'>
-                <input type='text' class="form-control" name="event[end]"/>
+                <%= f.input :end, as: :string, class: 'form-control', placeholder: 'End Date & Time' %>
+                <!-- <input type='text' class="form-control" name="event[end]" placeholder="End Date & Time" /> -->
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
