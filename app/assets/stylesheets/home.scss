@@ -171,11 +171,7 @@ h2{
 		margin: 10vh 10%;
 		font-size: 4em;
 		font-family: 'Helvetica';
-		color: #fff;
-/*		text-shadow: 1px 1px 1px #555,
-					 -1px 1px 1px #555,
-					 1px -1px 1px #555,
-					 -1px -1px 1px #555;*/	
+		color: #fff;	
 	}
 	.glyphicon{
 		font-size: 20em;
@@ -192,6 +188,28 @@ h2{
 	margin: 50px auto;
 	p{
 		font-size: 2em;
+		display: inline-block;
+	}
+	#how{
+		text-align: center;
+		p{
+			display: inline-block;
+			width: 70%;
+			text-align: justify;
+		}
+		.howimg{
+			font-size: 10em;
+			color: #000957;
+			display: inline-block;
+			margin: .2em;
+		}
+	}
+}
+#signup{
+	width: 50%;
+	margin: 0 auto 50px;
+	input{
+		border: 1px solid #000957;
 	}
 }
 

@@ -62,21 +62,37 @@
 </div>
 <div id="landingContent">
 	<h2>What Is <span class="title">GIGANTIC</span>?</h2>
-	<p><span class="title">GIGANTIC</span> is a budgeting and scheduling tool for people who live outside of </p>
+	<p><span class="title">GIGANTIC</span> is a budgeting and scheduling tool for people who live outside of the nine to five.</p>
+	<p>Your income isn't monthly, but your expenses are. <span class="title">GIGANTIC</span> allows you to see the income you have scheduled to come in and how long it will last you based on your monthly budget.</p>
+	<p>Have slow months? <span class="title">GIGANTIC</span> rolls over your excess income so you always know if you've booked enough work to get you through those down periods.</p>
+	<p>Have conflicting job requests from frequent employers? <span class="title">GIGANTIC</span>'s employer graph will show you which of your employers are giving you the most hours and which ones are paying the most for your time so you can make an informed decision.
+	</p>
+	<p>You work hard enough. <span class="title">GIGANTIC</span> makes managing your business easy so you can enjoy your life.</p>
+	<div id="how">
 	<h2>How Does It Work?</h2>
-	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-	<h2>A Third Different section</h2>
-	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	<span class="glyphicon glyphicon-calendar howimg"></span>
+	<p>Manage your schedule with <span class="title">GIGANTIC</span>'s built in calendar. Assign gigs to employers so you can keep track of who is giving you the most work.</p>
+	<p>Manage your budget with <span class="title">GIGANTIC</span>'s budgeting software. Track your spending and organize expenses by category so you can see exactly where your money is going.</p><span class="glyphicon glyphicon-usd howimg"></span>
+	<span class="glyphicon glyphicon-sunglasses howimg"></span>
+	<p>Relax! <span class="title">GIGANTIC</span> automatically calculates your income so you can see how much of your budget is covered. Look into the future so you always know if you're covered for those slow months.</p>
+	</div>
+	</div>
+	<div id="signup">
+		<h2>Sign Up Now!</h2>
+
+		<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+		  <%= f.error_notification %>
+
+		  <div class="form-inputs">
+		    <%= f.input :email, required: true, autofocus: true %>
+		    <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %>
+		    <%= f.input :password_confirmation, required: true %>
+		  </div>
+
+		  <div class="form-actions">
+		    <%= f.button :submit, "Sign up" %>
+  			</div>
+			<% end %>
 	</div>
 	  </body>
 </html>

@@ -262,7 +262,12 @@ function updatePage(){
 		totalProgress.style.width = budgetProgress + "%"
 		totalProgress.innerText = parseInt(budgetProgress) + "%"
 		for(i = 0; i < events.length; i++) {
-			checks.push(((events[i].end - events[i].start) / 1000 / 60 / 60) * events[i].pay_rate);
+			if(events[i].pay_type == true){
+				checks.push(((events[i].end - events[i].start) / 1000 / 60 / 60) * events[i].pay_rate);
+				
+			}else{
+				checks.push(parseInt(events[i].pay_rate));
+			};
 		};
 
 		// rollover from previous month
@@ -274,7 +279,12 @@ function updatePage(){
 				return e.start >= prevstart && e.end <= prevend;
 			});
 			for(i = 0; i < prevevents.length; i++) {
+				if(prevevents[i].pay_type == true){
 				prevchecks.push(((prevevents[i].end - prevevents[i].start) / 1000 / 60 / 60) * prevevents[i].pay_rate);
+				
+				}else{
+					prevchecks.push(parseInt(prevevents[i].pay_rate));
+				};
 			};
 			var prevMonthsPay = prevchecks.reduce((pv, cv) => pv+cv, 0);
 			var rollover = prevMonthsPay - (budgetTotal * Math.ceil(prevend.diff(prevstart, 'months', true)));
@@ -300,10 +310,14 @@ function updatePage(){
 				var currempevents = events.filter(e => e.employer === curremps[i]);
 				// calculate the checks for that employers events
 				for( n = 0; n < currempevents.length; n ++ ){
-					currempchecks.push(((currempevents[n].end - currempevents[n].start) / 1000 / 60 / 60) * currempevents[n].pay_rate);
-					console.log("checks:" + currempchecks + currempevents[n].name)
+					if(currempevents[n].pay_type == true){
+				currempchecks.push(((currempevents[n].end - currempevents[n].start) / 1000 / 60 / 60) * currempevents[n].pay_rate);
+				
+				}else{
+					currempchecks.push(parseInt(currempevents[n].pay_rate));
+					console.log(currempevents[n].pay_type)
+				};
 					curremphours.push((currempevents[n].end - currempevents[n].start) / 1000 / 60 / 60);
-					console.log("hours:" + curremphours)
 					currempcolors.push(currempevents[n].color);
 				};
 				// add them up and push them to curremppay
