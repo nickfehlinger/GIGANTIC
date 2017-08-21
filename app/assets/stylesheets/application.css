@@ -15,6 +15,11 @@
  *= require fullcalendar
 *= require bootstrap-datetimepicker
  */
+@font-face{
+	font-family: 'Impact';
+	src: url('Impact.ttf');
+}
+
 body{
 	background-color: #fff;
 }
