@@ -1,7 +1,6 @@
 # **GIGANTIC**
 
 A scheduling and budgeting app for freelancers and contractors
-------
 
 ### **GIGANTIC** is a a budgeting app for people who don't work regular hours.
 
