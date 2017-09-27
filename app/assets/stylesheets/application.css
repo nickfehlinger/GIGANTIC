@@ -64,6 +64,16 @@ label{
 	text-align: right;
 	padding: 10px;
 }
+.sessionInfo form{
+	text-align: right;
+	margin-right: 3em;
+}
+.sessionInfo form .col-sm-9{
+	padding: 0 0 0 10px;
+}
+.sessionInfo form .user_email{
+	margin-right: 27px !important;
+}
 #signout{
 	line-height: 2em;
 	font-size: 3em;
