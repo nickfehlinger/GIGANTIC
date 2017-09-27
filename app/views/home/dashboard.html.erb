@@ -238,7 +238,8 @@ tour.start();
 function updatePage(){
 	setTimeout( function(){
 		var events = $('#calendar').fullCalendar('clientEvents', App.getIdOrFilter());
-		var checks = []
+		var checks = [];
+		var fullbudget = [];
 		var currentTrans = transactions.filter(function (e) {
 	        if (moment(e.created_at) >= start && moment(e.created_at) <= end) {
 	            return true;
@@ -253,12 +254,16 @@ function updatePage(){
 		},{});
 		budgets.forEach(function(budget){
 		  let id = budget.id + "";
-		  document.getElementById("budget"+id).style.width = (totals[id] || 0) / budget.amount * 100 + "%";
-		  document.getElementById("budget"+id).innerText = parseInt((totals[id] || 0) / budget.amount * 100) + "%";
+		  var monbudg = budget.amount * budget.recurring_type
+		  document.getElementById("budget"+id).style.width = (totals[id] || 0) / monbudg * 100 + "%";
+		  document.getElementById("budget"+id).innerText = parseInt((totals[id] || 0) / monbudg * 100) + "%";
+		  fullbudget.push(monbudg);
 		});
-		var budgetTotal = parseInt(document.getElementById("total").innerText);
+		fullbudget = fullbudget.reduce(function(a,b){return a + b;},0);
+		var budgetTotal = document.getElementById("total");
+		budgetTotal.innerText = "$" + fullbudget
 		var totalProgress = document.getElementById("totalProgress");
-		var budgetProgress = total / budgetTotal * 100;
+		var budgetProgress = total / fullbudget * 100;
 		totalProgress.style.width = budgetProgress + "%"
 		totalProgress.innerText = parseInt(budgetProgress) + "%"
 		for(i = 0; i < events.length; i++) {
@@ -287,12 +292,12 @@ function updatePage(){
 				};
 			};
 			var prevMonthsPay = prevchecks.reduce((pv, cv) => pv+cv, 0);
-			var rollover = prevMonthsPay - (budgetTotal * Math.ceil(prevend.diff(prevstart, 'months', true)));
+			var rollover = prevMonthsPay - (fullbudget * Math.ceil(prevend.diff(prevstart, 'months', true)));
 			checks.push(rollover)
 		}
 		// end rollover
 		var monthPay = checks.reduce((pv, cv) => pv+cv, 0);
-		var percentEarned = parseInt(monthPay / budgetTotal * 100);
+		var percentEarned = parseInt(monthPay / fullbudget * 100);
 		var progressBar = document.getElementById("earnedBudget");
 		progressBar.setAttribute("aria-valuenow", percentEarned);
 		progressBar.setAttribute("style", "width: " + percentEarned + "%");
