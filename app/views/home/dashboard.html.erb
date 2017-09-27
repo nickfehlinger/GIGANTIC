@@ -73,7 +73,7 @@
 					});
 				</script>
 				<% budgetcat.budgets.each do |budget| %>
-					<p><%=link_to budget_path(budget), method: :delete do %><span class="glyphicon glyphicon-remove deleteBtn" aria-hidden="true"></span><% end %><%= budget.name %> <span class="glyphicon glyphicon-plus-sign newTransaction" aria-hidden="true" id="budget<%= budget.id %>formBtn"></span> <span class="glyphicon glyphicon-list listTransaction" aria-hidden="true" id="budget<%= budget.id %>TransactionBtn"></span></p>
+					<p><%=link_to budget_path(budget), method: :delete do %><span class="glyphicon glyphicon-remove deleteBtn" aria-hidden="true"></span><% end %><%= budget.name %> - $<span id="amount<%=budget.id %>"></span> <span class="glyphicon glyphicon-plus-sign newTransaction" aria-hidden="true" id="budget<%= budget.id %>formBtn"></span> <span class="glyphicon glyphicon-list listTransaction" aria-hidden="true" id="budget<%= budget.id %>TransactionBtn"></span></p>
 					<div class="transactionforms" id="budget<%= budget.id %>form">
 					<%= simple_form_for(@transaction) do |f| %>
 					  <%= f.error_notification %>
@@ -257,6 +257,7 @@ function updatePage(){
 		  var monbudg = budget.amount * budget.recurring_type
 		  document.getElementById("budget"+id).style.width = (totals[id] || 0) / monbudg * 100 + "%";
 		  document.getElementById("budget"+id).innerText = parseInt((totals[id] || 0) / monbudg * 100) + "%";
+		  document.getElementById("amount"+id).innerText = monbudg;
 		  fullbudget.push(monbudg);
 		});
 		fullbudget = fullbudget.reduce(function(a,b){return a + b;},0);
@@ -274,7 +275,7 @@ function updatePage(){
 				checks.push(parseInt(events[i].pay_rate));
 			};
 		};
-
+		var currMonthPay = parseInt(checks.reduce((pv, cv) => pv+cv, 0));
 		// rollover from previous month
 		var prevstart = moment("<%= current_user.created_at %>");
 		var prevend = moment(end).subtract(1, "months");
@@ -296,13 +297,14 @@ function updatePage(){
 			checks.push(rollover)
 		}
 		// end rollover
+		console.log(checks);
 		var monthPay = checks.reduce((pv, cv) => pv+cv, 0);
 		var percentEarned = parseInt(monthPay / fullbudget * 100);
 		var progressBar = document.getElementById("earnedBudget");
 		progressBar.setAttribute("aria-valuenow", percentEarned);
 		progressBar.setAttribute("style", "width: " + percentEarned + "%");
 		progressBar.innerText = percentEarned + "%";
-		document.getElementById("monthearnings").innerText = "$" + monthPay + " earned this month";
+		document.getElementById("monthearnings").innerText = "$" + currMonthPay + " earned this month";
 		// doughnut chart
 		var curremps = events.map( o => o.employer ).filter( (v,i,a) => a.indexOf(v) === i );
 		var currempchecks = [];
