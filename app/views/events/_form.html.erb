@@ -2,7 +2,7 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.association :employer, prompt: "Employer", label: false %>
+    <%= f.association :employer, collection: current_user.employers, prompt: "Employer", label: false %>
     <%= f.input :title, label: false, placeholder: 'title' %>
     <%= f.input :description, label: false, placeholder: 'description' %>
     <%= f.input :street_address, label: false, placeholder: 'address' %>
